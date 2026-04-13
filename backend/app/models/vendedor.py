@@ -12,3 +12,5 @@ class Vendedor(Base):
     prefixo_cep: Mapped[str] = mapped_column(String(10))
     cidade: Mapped[str] = mapped_column(String(100))
     estado: Mapped[str] = mapped_column(String(2))
+
+    itens_pedidos = relationship("ItemPedido", back_populates="vendedor")

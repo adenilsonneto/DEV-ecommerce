@@ -10,7 +10,7 @@ from app.database import Base
 class Pedido(Base):
     __tablename__ = "pedidos"
 
-    id_pedido: Mapped[str] = mapped_column(String(32), primary_key=True)
+    id_pedido: Mapped[str] = mapped_column(String(32), primary_key=True, index=True)
     id_consumidor: Mapped[str] = mapped_column(
         String(32), ForeignKey("consumidores.id_consumidor"), nullable=False
     )
@@ -22,3 +22,7 @@ class Pedido(Base):
     tempo_entrega_estimado_dias: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     diferenca_entrega_dias: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     entrega_no_prazo: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)
+
+    consumidor = relationship("Consumidor", back_populates="pedido")
+    itens_pedido = relationship("ItemPedido", back_populates="pedido")
+    avaliacoes = relationship("Avaliacao", back_populates="pedido")

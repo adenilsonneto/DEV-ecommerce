@@ -9,7 +9,7 @@ from app.database import Base
 class Produto(Base):
     __tablename__ = "produtos"
 
-    id_produto: Mapped[str] = mapped_column(String(32), primary_key=True)
+    id_produto: Mapped[str] = mapped_column(String(32), primary_key=True) #32 é o numero de caracteres do UUID
     nome_produto: Mapped[str] = mapped_column(String(255))
     categoria_produto: Mapped[str] = mapped_column(String(100))
     peso_produto_gramas: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
@@ -17,3 +17,4 @@ class Produto(Base):
     altura_centimetros: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     largura_centimetros: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
 
+    itens_pedidos = relationship("ItemPedido", back_populates="produto")

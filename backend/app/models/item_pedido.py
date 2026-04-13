@@ -23,3 +23,7 @@ class ItemPedido(Base):
     __table_args__ = (
         PrimaryKeyConstraint("id_pedido", "id_item"),
     )
+
+    pedido = relationship("Pedido", back_populates="itens_pedido")
+    produto = relationship("Produto", back_populates="itens_pedido")
+    vendedor = relationship("Vendedor", back_populates="itens_pedido")

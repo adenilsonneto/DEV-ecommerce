@@ -12,3 +12,5 @@ class Consumidor(Base):
     nome_consumidor: Mapped[str] = mapped_column(String(255))
     cidade: Mapped[str] = mapped_column(String(100))
     estado: Mapped[str] = mapped_column(String(2))
+
+    pedidos = relationship("Pedido", back_populates="consumidor")
