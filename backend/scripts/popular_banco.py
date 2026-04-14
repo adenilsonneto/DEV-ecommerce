@@ -15,13 +15,14 @@ from app.models.categoria_imagem import CategoriaImagem
 
 Base.metadata.create_all(bind=engine)
 
-# Caminho para a pasta data/ na raiz do projeto (fora de backend/)
+#caminho para a pasta data/ na raiz do projeto 
 DATA_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
     "data"
 )
 
 
+#craicao de funçoes seed_... para popular o banco de dados a partir da leitura dos CSVs
 def ler_csv(nome):
     caminho = os.path.join(DATA_DIR, nome)
     with open(caminho, encoding="utf-8-sig") as f:
@@ -30,8 +31,8 @@ def ler_csv(nome):
 
 def seed_categorias(db):
     print("Populando categorias...")
-    rows = ler_csv("dim_categoria_imagens.csv")
-    for r in rows:
+    rows = ler_csv("dim_categoria_imagens.csv") #rows é uma lista de dicionários, onde cada dicionário representa uma linha do CSV, com as chaves sendo os nomes das colunas e os valores sendo os dados correspondentes, tem em todas as funçoes para ler os dados e inserir sem duplicatas.
+    for r in rows: #percorre a lista de dicionários e para cada dicionário verifica se o produto já existe no banco de dados, usando o id_produto como chave, Se não existir cria um novo objeto Produto com os dados do dicionário e adiciona ao banco de dados.
         if not db.query(CategoriaImagem).filter_by(categoria=r["Categoria"]).first():
             db.add(CategoriaImagem(
                 categoria=r["Categoria"],
@@ -43,8 +44,8 @@ def seed_categorias(db):
 
 def seed_produtos(db):
     print("Populando produtos...")
-    rows = ler_csv("dim_produtos.csv")
-    for r in rows:
+    rows = ler_csv("dim_produtos.csv") 
+    for r in rows: 
         if not db.query(Produto).filter_by(id_produto=r["id_produto"]).first():
             db.add(Produto(
                 id_produto=r["id_produto"],
@@ -79,7 +80,7 @@ def seed_vendedores(db):
     print("Populando vendedores...")
     rows = ler_csv("dim_vendedores.csv")
     for r in rows:
-        if not db.query(Vendedor).filter_by(id_vendedor=r["id_vendedor"]).first():
+        if not db.query(Vendedor).filter_by(id_vendedor=r["id_vendedor"]).first(): #verifica se o vendedor já existe para evitar duplicatas
             db.add(Vendedor(
                 id_vendedor=r["id_vendedor"],
                 nome_vendedor=r["nome_vendedor"],
@@ -91,12 +92,12 @@ def seed_vendedores(db):
     print(f"  {len(rows)} vendedores inseridos.")
 
 
-def seed_pedidos(db):
+def seed_pedidos(db): 
     print("Populando pedidos...")
     rows = ler_csv("fat_pedidos.csv")
     from datetime import datetime
 
-    def parse_dt(val):
+    def parse_dt(val): #funcao para converter string em datatime
         if not val:
             return None
         try:
@@ -104,7 +105,7 @@ def seed_pedidos(db):
         except:
             return None
 
-    def parse_date(val):
+    def parse_date(val): #funcao para converter string em date
         if not val:
             return None
         try:
@@ -112,7 +113,7 @@ def seed_pedidos(db):
         except:
             return None
 
-    for r in rows:
+    for r in rows: 
         if not db.query(Pedido).filter_by(id_pedido=r["id_pedido"]).first():
             db.add(Pedido(
                 id_pedido=r["id_pedido"],
@@ -195,9 +196,9 @@ if __name__ == "__main__":
         seed_pedidos(db)
         seed_itens(db)
         seed_avaliacoes(db)
-        print("\n✅ Seed concluído com sucesso!")
+        print("\n Seed concluído com sucesso!")
     except Exception as e:
-        print(f"❌ Erro: {e}")
+        print(f"Erro: {e}")
         db.rollback()
     finally:
         db.close()
