@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class VendedorBase(BaseModel):
+class VendedorBase(BaseModel): #classes na mesma estrutura do consumidor, mas para o vendedor
     nome_vendedor: str
     prefixo_cep: str
     cidade: str
