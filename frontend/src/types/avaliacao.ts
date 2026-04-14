@@ -1,8 +1,9 @@
 export interface Avaliacao {
-    id: number;
-    produto_id: number;
-    consumidor_id: number;
-    nota: number;
-    comentario: string;
-    data: string;
+    id_avaliacao: string // Obrigatorio
+    id_pedido: string // Obrigatorio
+    avaliacao: number // Obrigatorio
+    titulo_comentario: string | null // Obrigatorio
+    comentario: string | null // Obrigatorio 
+    data_comentario: Date | null // Obrigatorio
+
 }

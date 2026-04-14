@@ -6,6 +6,7 @@ import ErrorMessage from '../components/ui/ErrorMessage';
 import { getProdutoById, deleteProduto } from '../services/produtoService';
 import type { Produto } from '../types/produto';
 import AvaliacoesProduto from '../components/produto/AvaliacoesProduto';
+
 //componente de estrelas para exibir a nota
 function Estrelas({ nota }: { nota: number }) {
   return (
@@ -23,10 +24,7 @@ function Estrelas({ nota }: { nota: number }) {
 }
 
 function DetalhesProduto() {
-  // useParams captura o :id da URL
   const { id } = useParams<{ id: string }>();
-  
-  // useNavigate permite navegar programaticamente
   const navigate = useNavigate();
 
   const [produto, setProduto] = useState<Produto | null>(null);
@@ -36,11 +34,11 @@ function DetalhesProduto() {
 
   useEffect(() => {
     if (id) {
-      carregarProduto(Number(id));
+      carregarProduto(id); // ✅ string, sem Number()
     }
   }, [id]);
 
-  const carregarProduto = async (produtoId: number) => {
+  const carregarProduto = async (produtoId: string) => { // ✅ string
     try {
       setLoading(true);
       const data = await getProdutoById(produtoId);
@@ -53,15 +51,14 @@ function DetalhesProduto() {
   };
 
   const handleDeletar = async () => {
-    //confirmação antes de deletar
-    const confirmou = window.confirm(`Tem certeza que deseja excluir "${produto?.nome}"? Esta ação não pode ser desfeita.`);
-    
+    const confirmou = window.confirm(`Tem certeza que deseja excluir "${produto?.nome_produto}"? Esta ação não pode ser desfeita.`);
+
     if (!confirmou || !id) return;
 
     try {
       setDeletando(true);
-      await deleteProduto(Number(id));
-      navigate('/');  // Volta ao catálogo após deletar
+      await deleteProduto(id); // ✅ string, sem Number()
+      navigate('/');
     } catch {
       setError('Não foi possível excluir o produto.');
       setDeletando(false);
@@ -74,7 +71,6 @@ function DetalhesProduto() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Botão de voltar */}
         <Link
@@ -90,12 +86,12 @@ function DetalhesProduto() {
         {produto && !loading && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="md:flex">
-              {/*iimagem */}
+              {/* imagem */}
               <div className="md:w-1/2">
                 {produto.imagem_url ? (
                   <img
                     src={produto.imagem_url}
-                    alt={produto.nome}
+                    alt={produto.nome_produto}
                     className="w-full h-80 md:h-full object-cover"
                   />
                 ) : (
@@ -105,28 +101,12 @@ function DetalhesProduto() {
                 )}
               </div>
 
-              {/*infos*/}
+              {/* infos */}
               <div className="md:w-1/2 p-6 md:p-8">
                 <span className="text-sm text-blue-600 font-semibold uppercase tracking-wide">
-                  {produto.categoria}
+                  {produto.categoria_produto}
                 </span>
-                <h1 className="text-2xl font-bold text-gray-900 mt-2">{produto.nome}</h1>
-                <p className="text-gray-600 mt-3">{produto.descricao}</p>
-
-                <div className="mt-6 space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-gray-500">Preço</span>
-                    <span className="text-2xl font-bold text-green-600">
-                      {formatarPreco(produto.preco)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-gray-500">Estoque</span>
-                    <span className={`font-semibold ${produto.estoque > 0 ? 'text-green-600' : 'text-red-500'}`}>
-                      {produto.estoque > 0 ? `${produto.estoque} unidades` : 'Sem estoque'}
-                    </span>
-                  </div>
-                </div>
+                <h1 className="text-2xl font-bold text-gray-900 mt-2">{produto.nome_produto}</h1>
 
                 {/* ações */}
                 <div className="mt-8 flex gap-3">
@@ -147,10 +127,10 @@ function DetalhesProduto() {
               </div>
             </div>
 
-            {/*seção de avaliações */}
+            {/* seção de avaliações */}
             <div className="border-t border-gray-100 p-6 md:p-8">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Avaliações</h2>
-              <AvaliacoesProduto produtoId={Number(id)} />
+              <AvaliacoesProduto produtoId={id!} /> {/* ✅ string, sem Number() */}
             </div>
           </div>
         )}

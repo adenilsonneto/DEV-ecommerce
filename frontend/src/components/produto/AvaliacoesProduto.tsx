@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import type { Avaliacao } from '../../types/avaliacao';
 import { getAvaliacoesPorProduto } from '../../services/avaliacaoService';
+import type { Avaliacao } from '../../types/avaliacao';
 
 interface AvaliacoesProdutoProps {
-  produtoId: number;
+  produtoId: string; // ✅ string
 }
 
 function Estrelas({ nota, tamanho = 'md' }: { nota: number; tamanho?: 'sm' | 'md' | 'lg' }) {
@@ -24,15 +24,15 @@ function AvaliacoesProduto({ produtoId }: AvaliacoesProdutoProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getAvaliacoesPorProduto(produtoId)
+    getAvaliacoesPorProduto(produtoId) // ✅ string, sem Number()
       .then(setAvaliacoes)
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [produtoId]);
 
-  // Calcula a média das notas
+  // Calcula a média das notas usando o campo correto "avaliacao"
   const media = avaliacoes.length
-    ? avaliacoes.reduce((sum, a) => sum + a.nota, 0) / avaliacoes.length
+    ? avaliacoes.reduce((sum, a) => sum + a.avaliacao, 0) / avaliacoes.length // ✅ a.avaliacao
     : 0;
 
   if (loading) return <p className="text-gray-400 text-sm">Carregando avaliações...</p>;
@@ -42,12 +42,14 @@ function AvaliacoesProduto({ produtoId }: AvaliacoesProdutoProps) {
       {/* Resumo da média */}
       {avaliacoes.length > 0 && (
         <div className="flex items-center gap-4 mb-6 p-4 bg-yellow-50 rounded-xl">
-          <div className="text-4xl font-bold text-gray-900">{media.toFixed(1)}</div>
           <div>
-            <Estrelas nota={media} tamanho="lg" />
-            <p className="text-sm text-gray-500 mt-1">
-              Baseado em {avaliacoes.length} avaliação{avaliacoes.length !== 1 ? 'ões' : ''}
-            </p>
+            <div className="text-4xl font-bold text-gray-900">{media.toFixed(1)}</div>
+            <div>
+              <Estrelas nota={media} tamanho="lg" />
+              <p className="text-sm text-gray-500 mt-1">
+                Baseado em {avaliacoes.length} {avaliacoes.length !== 1 ? 'avaliações' : 'avaliação'}
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -58,11 +60,13 @@ function AvaliacoesProduto({ produtoId }: AvaliacoesProdutoProps) {
       ) : (
         <div className="space-y-4">
           {avaliacoes.map((avaliacao) => (
-            <div key={avaliacao.id} className="border border-gray-100 rounded-xl p-4">
+            <div key={avaliacao.id_avaliacao} className="border border-gray-100 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
-                <Estrelas nota={avaliacao.nota} tamanho="sm" />
+                <Estrelas nota={avaliacao.avaliacao} tamanho="sm" /> {/* ✅ avaliacao.avaliacao */}
                 <span className="text-xs text-gray-400">
-                  {new Date(avaliacao.data).toLocaleDateString('pt-BR')}
+                    {avaliacao.data_comentario 
+                    ? new Date(avaliacao.data_comentario).toLocaleDateString('pt-BR')
+                     : ''}
                 </span>
               </div>
               {avaliacao.comentario && (

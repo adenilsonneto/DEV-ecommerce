@@ -20,7 +20,7 @@ function ProdutoCard({ produto }: ProdutoCardProps) {
       {produto.imagem_url ? (
         <img
           src={produto.imagem_url}
-          alt={produto.nome}
+          alt={produto.nome_produto}
           className="w-full h-48 object-cover"
         />
       ) : (
@@ -31,27 +31,15 @@ function ProdutoCard({ produto }: ProdutoCardProps) {
 
       <div className="p-4">
         <span className="text-xs text-blue-600 font-medium uppercase tracking-wide">
-          {produto.categoria}
+          {produto.categoria_produto}
         </span>
         <h3 className="text-gray-900 font-semibold text-lg mt-1 truncate">
-          {produto.nome}
+          {produto.nome_produto}
         </h3>
-        <p className="text-gray-500 text-sm mt-1 line-clamp-2">
-          {produto.descricao}
-        </p>
-
-        <div className="mt-3 flex items-center justify-between">
-          <span className="text-xl font-bold text-green-600">
-            {formatarPreco(produto.preco)}
-          </span>
-          <span className="text-sm text-gray-400">
-            Estoque: {produto.estoque}
-          </span>
-        </div>
 
         {/*botão que leva aos detalhes */}
         <Link
-          to={`/produtos/${produto.id}`}
+          to={`/produtos/${produto.id_produto}`}
           className="mt-3 block w-full text-center bg-blue-50 text-blue-700 py-2 rounded-lg hover:bg-blue-100 transition-colors font-medium"
         >
           Ver detalhes

@@ -17,7 +17,7 @@ function NovoProduto() {
       const novoProduto = await createProduto(data);
       
       //redireciona para os detalhes do produto que acabou de ser criado
-      navigate(`/produtos/${novoProduto.id}`);
+      navigate(`/produtos/${novoProduto.id_produto}`);
     } catch {
       setError('Não foi possível criar o produto. Tente novamente.');
       setLoading(false);

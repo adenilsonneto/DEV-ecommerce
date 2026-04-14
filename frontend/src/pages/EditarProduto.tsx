@@ -17,7 +17,7 @@ function EditarProduto() {
 
   useEffect(() => {
     if (id) {
-      getProdutoById(Number(id))
+      getProdutoById(id) // ✅ removido Number()
         .then(setProduto)
         .catch(() => setError('Produto não encontrado.'))
         .finally(() => setLoadingProduto(false));
@@ -28,7 +28,7 @@ function EditarProduto() {
     if (!id) return;
     try {
       setLoadingSalvar(true);
-      await updateProduto(Number(id), data);
+      await updateProduto(id, data); // ✅ removido Number()
       navigate(`/produtos/${id}`);
     } catch {
       setError('Não foi possível salvar as alterações.');
@@ -39,7 +39,6 @@ function EditarProduto() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-
       <main className="max-w-2xl mx-auto px-4 py-8">
         <Link
           to={`/produtos/${id}`}
@@ -60,7 +59,7 @@ function EditarProduto() {
 
         {produto && !loadingProduto && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            {/*passa os dados atuais como initialData para pré-preencher o formulário */}
+            {/* passa os dados atuais como initialData para pré-preencher o formulário */}
             <ProdutoForm
               initialData={produto}
               onSubmit={handleSubmit}
