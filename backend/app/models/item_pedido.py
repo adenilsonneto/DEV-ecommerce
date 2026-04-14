@@ -24,6 +24,6 @@ class ItemPedido(Base):
         PrimaryKeyConstraint("id_pedido", "id_item"),
     )
 
-    pedido = relationship("Pedido", back_populates="itens_pedido")
+    pedido = relationship("Pedido", back_populates="itens")
     produto = relationship("Produto", back_populates="itens_pedido")
     vendedor = relationship("Vendedor", back_populates="itens_pedido")

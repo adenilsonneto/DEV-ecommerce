@@ -1,3 +1,4 @@
+#arquivos de migração do banco de dados, gerados pelo Alembic, para criar as tabelas iniciais do projeto.
 """cria_tabelas_iniciais
 
 Revision ID: 373ad921086d
