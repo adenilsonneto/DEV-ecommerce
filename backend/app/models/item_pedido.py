@@ -25,5 +25,5 @@ class ItemPedido(Base):
     )
 
     pedido = relationship("Pedido", back_populates="itens")
-    produto = relationship("Produto", back_populates="itens_pedido")
-    vendedor = relationship("Vendedor", back_populates="itens_pedido")
+    produto = relationship("Produto", back_populates="itens_pedidos")
+    vendedor = relationship("Vendedor", back_populates="itens_pedidos")
