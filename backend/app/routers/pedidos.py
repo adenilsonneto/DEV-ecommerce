@@ -23,20 +23,20 @@ def listar_pedidos(
     pagina: int = 1,
     por_pagina: int = 20,
     db: Session = Depends(get_db)
-):
+): #listagem paginada 
     offset = (pagina - 1) * por_pagina
     return db.query(Pedido).offset(offset).limit(por_pagina).all()
 
 
 @router.get("/{id_pedido}", response_model=PedidoResponse)
-def obter_pedido(id_pedido: str, db: Session = Depends(get_db)):
+def obter_pedido(id_pedido: str, db: Session = Depends(get_db)): #obter pedido por id do banco e incluir itens do pedido
     pedido = db.query(Pedido).filter(Pedido.id_pedido == id_pedido).first()
     if not pedido:
         raise HTTPException(status_code=404, detail="Pedido não encontrado")
     return pedido
 
 
-@router.post("/", response_model=PedidoResponse, status_code=201)
+@router.post("/", response_model=PedidoResponse, status_code=201) #criar pedido no banco atraves do json recebido
 def criar_pedido(pedido: PedidoCreate, db: Session = Depends(get_db)):
     db_pedido = Pedido(**pedido.model_dump())
     db.add(db_pedido)
@@ -50,7 +50,7 @@ def atualizar_pedido(
     id_pedido: str,
     dados: PedidoCreate,
     db: Session = Depends(get_db),
-):
+): #atualizar pedido no banco atraves do json recebido e id do pedido
     pedido = db.query(Pedido).filter(Pedido.id_pedido == id_pedido).first()
     if not pedido:
         raise HTTPException(status_code=404, detail="Pedido não encontrado")
@@ -62,7 +62,7 @@ def atualizar_pedido(
 
 
 @router.delete("/{id_pedido}", status_code=204)
-def deletar_pedido(id_pedido: str, db: Session = Depends(get_db)):
+def deletar_pedido(id_pedido: str, db: Session = Depends(get_db)): #deletar pedido do banco atraves do id do pedido
     pedido = db.query(Pedido).filter(Pedido.id_pedido == id_pedido).first()
     if not pedido:
         raise HTTPException(status_code=404, detail="Pedido não encontrado")

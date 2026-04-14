@@ -9,12 +9,12 @@ router = APIRouter(prefix="/consumidores", tags=["Consumidores"])
 
 
 @router.get("/", response_model=list[ConsumidorResponse])
-def listar_consumidores(db: Session = Depends(get_db)):
-    return db.query(Consumidor).all()
+def listar_consumidores(db: Session = Depends(get_db)): #listagem paginada
+    return db.query(Consumidor).all() 
 
 
 @router.get("/{id_consumidor}", response_model=ConsumidorResponse)
-def obter_consumidor(id_consumidor: str, db: Session = Depends(get_db)):
+def obter_consumidor(id_consumidor: str, db: Session = Depends(get_db)): #obter consumidor por id do banco
     consumidor = db.query(Consumidor).filter(
         Consumidor.id_consumidor == id_consumidor
     ).first()
@@ -24,7 +24,7 @@ def obter_consumidor(id_consumidor: str, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=ConsumidorResponse, status_code=201)
-def criar_consumidor(consumidor: ConsumidorCreate, db: Session = Depends(get_db)):
+def criar_consumidor(consumidor: ConsumidorCreate, db: Session = Depends(get_db)): #criar consumidor no banco atraves do json recebido
     db_consumidor = Consumidor(**consumidor.model_dump())
     db.add(db_consumidor)
     db.commit()
@@ -32,7 +32,7 @@ def criar_consumidor(consumidor: ConsumidorCreate, db: Session = Depends(get_db)
     return db_consumidor
 
 
-@router.put("/{id_consumidor}", response_model=ConsumidorResponse)
+@router.put("/{id_consumidor}", response_model=ConsumidorResponse) #atualizar consumidor no banco atraves do json recebido e id do consumidor
 def atualizar_consumidor(
     id_consumidor: str,
     dados: ConsumidorCreate,
@@ -51,7 +51,7 @@ def atualizar_consumidor(
 
 
 @router.delete("/{id_consumidor}", status_code=204)
-def deletar_consumidor(id_consumidor: str, db: Session = Depends(get_db)):
+def deletar_consumidor(id_consumidor: str, db: Session = Depends(get_db)): #deletar consumidor do banco atraves do id do consumidor
     consumidor = db.query(Consumidor).filter(
         Consumidor.id_consumidor == id_consumidor
     ).first()
