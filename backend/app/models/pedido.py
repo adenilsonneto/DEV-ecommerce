@@ -24,5 +24,5 @@ class Pedido(Base):
     entrega_no_prazo: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)
 
     consumidor = relationship("Consumidor", back_populates="pedidos")
-    itens_pedido = relationship("ItemPedido", back_populates="pedido")
+    itens = relationship("ItemPedido", back_populates="pedido")
     avaliacoes = relationship("AvaliacaoPedido", back_populates="pedido")
