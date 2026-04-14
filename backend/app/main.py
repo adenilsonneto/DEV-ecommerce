@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import pedidos, produtos, consumidores, vendedores # importa as rotas
+from app.routers import pedidos, produtos, consumidores, vendedores, avaliacoes # importa as rotas
 from app.database import engine, Base
 
 Base.metadata.create_all(bind=engine) #cria as tabelas no banco de dados
@@ -25,6 +25,7 @@ app.include_router(produtos.router)
 app.include_router(pedidos.router)
 app.include_router(consumidores.router)
 app.include_router(vendedores.router)
+app.include_router(avaliacoes.router)
 
 @app.get("/", tags=["Health"])
 def health_check():
