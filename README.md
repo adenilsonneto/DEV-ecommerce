@@ -4,7 +4,7 @@ Sistema de gerenciamento de produtos — Visagio Rocket Lab 2026
 ## 🚀 Como executar
 ### 1. Clone o repositório
 ```bash
-git clone https://github.com/SEU_USUARIO/ecommerce-rocketlab.git
+git clone https://github.com/adenilsonneto/ecommerce-rocketlab.git
 cd ecommerce-rocketlab
 ```
 ### 2. Obtenha os arquivos de dados
