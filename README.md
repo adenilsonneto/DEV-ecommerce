@@ -1,6 +1,9 @@
 # 🛒 E-Commerce Manager
 Sistema de gerenciamento de produtos — Visagio Rocket Lab 2026
-## 📋 Pré-requisitos- Python 3.10+- Node.js 18+- Git
+## 📋 Pré-requisitos
+- Python 3.10+
+- Node.js 18+
+- Git
 ## 🚀 Como executar
 ### 1. Clone o repositório
 ```bash
@@ -16,7 +19,7 @@ Coloque os 7 arquivos CSV fornecidos na pasta `data/` na raiz do projeto:
 - fat_pedidos.csv
 - fat_itens_pedidos.csv
 - fat_avaliacoes_pedidos.csv
-- 
+
 ### 3. Backend
 ```bash
 cd backend
@@ -31,6 +34,7 @@ python scripts/popular_banco.py
 uvicorn app.main:app --reload
 ```
 API disponível em: http://localhost:8000
+
 Documentação interativa: http://localhost:8000/docs
 ### 4. Frontend (novo terminal)
 ```bash
@@ -40,8 +44,12 @@ npm run dev
 ```
 Aplicação disponível em: http://localhost:5173
 
-## 🛠 Stack- **Frontend**: Vite, React, TypeScript, React Router, Axios- **Backend**: FastAPI (Python)- **Banco de dados**: SQLite + SQLAlchemy + Alembic
-## ✅ Funcionalidades- [x] Catálogo de produtos com imagens por categoria
+## 🛠 Stack
+- **Frontend**: Vite, React, TypeScript, React Router, Axios
+- **Backend**: FastAPI (Python)
+- **Banco de dados**: SQLite + SQLAlchemy + Alembic
+## ✅ Funcionalidades
+- [x] Catálogo de produtos com imagens por categoria
 - [x] Busca de produtos por nome com debounce
 - [x] Paginação via backend
 - [x] Detalhes do produto: medidas físicas, total de vendas, receita e avaliações
